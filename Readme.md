@@ -165,7 +165,7 @@ Cart data is stored as a JSON array under the key `"cartProductsLS"`:
 
 ```
 Subtotal  =  Sum of (price × quantity) for all cart items
-Tax       =  Fixed ₹50 (GST)
+Tax       =  18% (GST)
 ─────────────────────────────────────────────
 Final Total = Subtotal + Tax
 ```
