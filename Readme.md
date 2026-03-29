@@ -21,11 +21,11 @@
 
 | Home Page | Products |
 |:---------:|:--------:|
-| ![Home Page](https://via.placeholder.com/500x300?text=Home+Page) | ![Products](https://via.placeholder.com/500x300?text=Products+Section) |
+| ![Home Page](https://e-com-website-rsg.netlify.app/) | ![Products](https://e-com-website-rsg.netlify.app/src/products) |
 
 | Cart Page | Mobile View |
 |:---------:|:-----------:|
-| ![Cart Page](https://via.placeholder.com/500x300?text=Cart+Page) | ![Mobile](https://via.placeholder.com/500x300?text=Mobile+Responsive) |
+| ![Cart Page](https://e-com-website-rsg.netlify.app/src/addtocart) | ![Contact](https://e-com-website-rsg.netlify.app/src/contact) |
 
 ---
 
