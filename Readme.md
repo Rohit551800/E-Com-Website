@@ -15,19 +15,6 @@
 
 ---
 
-## 📸 Screenshots
-
-> 💡 *Replace the placeholders below with actual screenshots from your project.*
-
-| Home Page | Products |
-|:---------:|:--------:|
-| ![Home Page](https://e-com-website-rsg.netlify.app/) | ![Products](https://e-com-website-rsg.netlify.app/src/products) |
-
-| Cart Page | Mobile View |
-|:---------:|:-----------:|
-| ![Cart Page](https://e-com-website-rsg.netlify.app/src/addtocart) | ![Contact](https://e-com-website-rsg.netlify.app/src/contact) |
-
----
 
 ## ✨ Features
 
