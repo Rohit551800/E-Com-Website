@@ -1,0 +1,1403 @@
+/* ============================================================
+   THAPA ECOMSTORE — LIGHT THEME STYLESHEET
+   Design System: Clean editorial light theme
+   Fonts: Bebas Neue (display) + DM Sans (body)
+   Tokens: --black=#fff, --white=#1a1a2e (inverted for light bg)
+   ============================================================ */
+
+/* ============================================================
+   1. GOOGLE FONTS IMPORT
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+/* ============================================================
+   2. DESIGN TOKENS — LIGHT THEME
+   Note: --black is page background (white), --white is text (dark)
+   This is an intentional inversion for the light theme system
+   ============================================================ */
+:root {
+  --font-display: 'Bebas Neue', cursive;
+  --font-body:    'DM Sans', sans-serif;
+
+  --black:   #ffffff;   /* page background */
+  --gray1:   #f5f4f0;   /* navbar, footer, alt section bg */
+  --gray2:   #edecea;   /* card surface */
+  --gray3:   #e4e2de;   /* input backgrounds */
+  --border:  #d4d2cc;   /* all borders */
+  --white:   #1a1a2e;   /* primary text (dark on light) */
+  --muted:   #6b6b80;   /* secondary text, labels */
+  --accent:  #e63946;   /* primary accent — red */
+  --accent2: #d4780a;   /* secondary accent — warm orange */
+  --accent3: #0a7abf;   /* tertiary accent — steel blue */
+
+  --max-width:   1100px;
+  --section-gap: 4rem;
+  --card-gap:    1.5rem;
+}
+
+/* ============================================================
+   3. CSS RESET
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   4. BASE BODY
+   ============================================================ */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ============================================================
+   5. NOISE TEXTURE — subtle tactile grain for depth on light bg
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ============================================================
+   6. SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--gray2); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+
+/* ============================================================
+   7. TEXT SELECTION
+   ============================================================ */
+::selection { background: var(--accent); color: #fff; }
+
+/* ============================================================
+   8. KEYFRAMES
+   ============================================================ */
+
+/* Page entry fade-up */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating orb drift for hero background */
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+/* Status pulsing dot */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Shimmer skeleton sweep */
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+/* Skill bar grow-in */
+@keyframes skillBar {
+  from { width: 0; }
+}
+
+/* Scroll line loop indicator */
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  49%  { transform: scaleY(1); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ============================================================
+   9. PAGE ENTER ANIMATION — stagger across sections
+   ============================================================ */
+.page-enter {
+  animation: pageEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+header                  { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+main                    { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.05s both; }
+.section-extra-product  { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.10s both; }
+.section-policy         { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.13s both; }
+.section-products       { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.16s both; }
+.section-why--choose    { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.19s both; }
+footer                  { animation: pageEnter 0.5s cubic-bezier(0.16,1,0.3,1) 0.22s both; }
+
+/* ============================================================
+   10. LAYOUT HELPERS
+   ============================================================ */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.grid               { display: grid; }
+.grid-two--cols     { grid-template-columns: repeat(2, 1fr);  gap: 1.5rem; }
+.grid-three--cols   { grid-template-columns: repeat(3, 1fr);  gap: 1.5rem; }
+.grid-four--cols    { grid-template-columns: repeat(4, 1fr);  gap: 1.5rem; }
+
+/* ============================================================
+   11. TYPOGRAPHY SCALE
+   ============================================================ */
+
+/* Eyebrow / page label — small uppercase red */
+.hero-subheading {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+/* Hero heading — large Bebas Neue display */
+.hero-heading {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5rem);
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+}
+
+/* Section headings */
+.section-common--heading {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Section subheadings */
+.section-common--subheading {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+}
+
+/* Card / module titles */
+.section-common--title {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+}
+
+/* Hero body paragraph */
+.hero-para {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+/* ============================================================
+   12. BUTTONS
+   ============================================================ */
+
+/* Global button base */
+button {
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  background: none;
+}
+
+/* Primary filled button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(230, 57, 70, 0.22);
+}
+
+/* ============================================================
+   13. NAVBAR
+   ============================================================ */
+
+/* Top announcement strip */
+.top_txt {
+  background: var(--accent);
+  padding: 0.45rem 0;
+}
+
+.top_txt .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top_txt p {
+  font-size: 0.78rem;
+  color: #fff;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+}
+
+/* Sign in / up */
+.sing_in_up {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.sing_in_up a {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.sing_in_up a:hover { color: #fff; }
+
+/* Main nav bar */
+.section-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: var(--black);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Scrolled: frosted glass lift */
+.section-navbar.scrolled {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+}
+
+/* Nav inner row */
+.section-navbar > .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* Logo */
+.navbar-brand a { text-decoration: none; display: block; }
+.logo { height: 38px; width: auto; display: block; }
+
+/* Nav links */
+.navbar ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-item { position: relative; }
+
+/* Link base style */
+.nav-link {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-decoration: none;
+  padding-bottom: 4px;
+  transition: color 0.2s;
+}
+
+/* Underline that grows on hover */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--white);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Cart nav item — styled as bordered button */
+.add-to-cart-button.nav-link {
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  padding: 0.35rem 1rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.add-to-cart-button.nav-link::after { display: none; }
+
+.add-to-cart-button.nav-link:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ============================================================
+   14. HERO SECTION
+   ============================================================ */
+.section-hero {
+  position: relative;
+  padding: 5.5rem 0 5rem;
+  background: var(--black);
+  overflow: hidden;
+}
+
+/* Orb 1: accent red, top-left */
+.section-hero::before {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  top: -130px;
+  left: -160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230,57,70,0.08) 0%, transparent 70%);
+  animation: floatOrb 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Orb 2: accent3 blue, bottom-right */
+.section-hero::after {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  bottom: -80px;
+  right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,122,191,0.07) 0%, transparent 70%);
+  animation: floatOrb 8s ease-in-out infinite;
+  animation-delay: -4s;
+  pointer-events: none;
+}
+
+/* Content above orbs */
+.section-hero .container {
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+
+.section-hero--content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Hero image */
+.section-hero-image figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-hero-image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  filter: drop-shadow(0 24px 60px rgba(212,120,10,0.14));
+}
+
+/* Hero CTA buttons row */
+.hero-btn {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* SVG wave divider between hero and next section */
+.custom-shape-divider-bottom-1696038172 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.custom-shape-divider-bottom-1696038172 svg {
+  display: block;
+  width: 100%;
+  height: 55px;
+}
+
+/* Wave fill matches the next section's background */
+.shape-fill { fill: var(--gray1); }
+
+/* ============================================================
+   15. EXTRA PRODUCT / SALE SECTION
+   ============================================================ */
+.section-extra-product {
+  background: var(--gray1);
+  padding: 4rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Individual sale promo card */
+.div-extra {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* Bottom accent line — different color per card */
+.div-extra::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.div-extra:nth-child(2)::after {
+  background: linear-gradient(90deg, var(--accent2), transparent);
+}
+
+.div-extra:nth-child(3)::after {
+  background: linear-gradient(90deg, var(--accent3), transparent);
+}
+
+/* Hover lift */
+.div-extra:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(230,57,70,0.1);
+}
+
+.div-extra:nth-child(2):hover {
+  border-color: var(--accent2);
+  box-shadow: 0 8px 28px rgba(212,120,10,0.1);
+}
+
+.div-extra:nth-child(3):hover {
+  border-color: var(--accent3);
+  box-shadow: 0 8px 28px rgba(10,122,191,0.1);
+}
+
+/* Sale label text */
+.extra-text p {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.div-extra:nth-child(2) .extra-text p { color: var(--accent2); }
+.div-extra:nth-child(3) .extra-text p { color: var(--accent3); }
+
+/* Sale card heading */
+.extra-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 1.5px;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+
+/* Shop now link */
+.extra-text a {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 1px;
+  transition: letter-spacing 0.2s;
+}
+
+.div-extra:nth-child(2) .extra-text a { color: var(--accent2); }
+.div-extra:nth-child(3) .extra-text a { color: var(--accent3); }
+.extra-text a:hover { letter-spacing: 2.5px; }
+
+/* Product image in sale card */
+.extra-img {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.extra-img img {
+  width: 100%;
+  max-width: 110px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.div-extra:hover .extra-img img {
+  transform: scale(1.07) translateY(-4px);
+}
+
+/* ============================================================
+   16. POLICY / TRUST BADGES
+   ============================================================ */
+.section-policy {
+  background: var(--black);
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Single policy item */
+.div-policy {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--border);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.div-policy:last-child { border-right: none; }
+.div-policy:hover { background: var(--gray1); }
+
+/* Policy icon circle */
+.icons {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--gray2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 1.05rem;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.div-policy:hover .icons {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Policy text labels */
+.div-policy-text p:first-child {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--white);
+  text-transform: capitalize;
+  line-height: 1.4;
+}
+
+.div-policy-text p:last-child {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* ============================================================
+   17. PRODUCTS SECTION
+   ============================================================ */
+.section-products {
+  padding: var(--section-gap) 0;
+  background: var(--gray1);
+}
+
+/* Auto-responsive product grid */
+#productContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--card-gap);
+  margin-top: 0.5rem;
+}
+
+/* ============================================================
+   18. PRODUCT CARDS (template rendered)
+   ============================================================ */
+
+/* .cards is just a wrapper; .information is the visual card */
+.cards {
+  display: contents;
+}
+
+/* Card surface */
+.information {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* Bottom accent bar: revealed on hover */
+.information::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.information:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(230,57,70,0.08);
+}
+
+.information:hover::after { opacity: 1; }
+
+/* Category badge */
+.category {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  background: rgba(230,57,70,0.07);
+  border: 1px solid rgba(230,57,70,0.2);
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+/* Image container */
+.imgContainer {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--gray2);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0.2rem 0;
+}
+
+.productImage {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.information:hover .productImage { transform: scale(1.06); }
+
+/* Product name */
+.productName {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+/* Star rating */
+.productRating {
+  display: flex;
+  gap: 0.18rem;
+  color: var(--accent2);
+  font-size: 0.72rem;
+}
+
+/* Description — max 3 lines */
+.productDescription {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+  display: -webkit-box;
+  /* -webkit-line-clamp: 3; */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Price row */
+.productPriceElement {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+}
+
+.productPrice {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.productActualPrice {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+/* Stock info pill */
+.productStockElement {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  background: var(--gray2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Small uppercase label */
+.productProperty {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.productStock {
+  font-weight: 600;
+  color: var(--accent3);
+  font-size: 0.8rem;
+}
+
+/* Quantity +/- controls */
+.productQuantityElement {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stockElement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cartIncrement,
+.cartDecrement {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--gray2);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.cartIncrement:hover,
+.cartDecrement:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.productQuantity {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  color: var(--white);
+}
+
+/* Add to cart — card CTA button */
+.add-to-cart-button:not(.nav-link) {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--white);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.add-to-cart-button:not(.nav-link):hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(230,57,70,0.18);
+}
+
+/* ============================================================
+   19. WHY CHOOSE US
+   ============================================================ */
+.section-why--choose {
+  padding: var(--section-gap) 0;
+  background: var(--black);
+  border-top: 1px solid var(--border);
+}
+
+/* Three-column: left reasons | center image | right reasons */
+.section-why--choose .grid-three--cols {
+  align-items: start;
+  gap: 4rem;
+}
+
+.choose-left-div,
+.choose-right-div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.text-align--right { text-align: right; }
+.text-align--left  { text-align: left;  }
+
+/* Center image */
+.choose-center-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choose-center-div figure img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+}
+
+/* Individual reason block */
+.why-choose--div {
+  padding: 1.25rem;
+  background: var(--gray1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.why-choose--div:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(230,57,70,0.07);
+}
+
+/* Large faded number accent */
+.common-text--highlight {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.why-choose--div p:not(.common-text--highlight) {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   20. FORM INPUTS
+   ============================================================ */
+input,
+textarea,
+select {
+  background: var(--gray3);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230,57,70,0.08);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+input:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ============================================================
+   21. FOOTER
+   ============================================================ */
+.section-footer {
+  background: var(--gray1);
+  border-top: 1px solid var(--border);
+  padding: 3rem 0 0;
+}
+
+/* Four-column footer grid */
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Brand column */
+.content_1 img:first-child {
+  height: 38px;
+  width: auto;
+  display: block;
+  margin-bottom: 0.9rem;
+}
+
+.content_1 p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.content_1 img:last-child {
+  height: 26px;
+  width: auto;
+  opacity: 0.5;
+}
+
+/* Link columns */
+.content_2,
+.content_3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.content_2 h4,
+.content_3 h4,
+.content_4 h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.content_2 a,
+.content_3 a {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.content_2 a:hover,
+.content_3 a:hover {
+  color: var(--accent);
+}
+
+/* Newsletter column */
+.content_4 p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 0.9rem;
+}
+
+.f-mail {
+  position: relative;
+}
+
+.f-mail input {
+  background: var(--black);
+  padding-right: 2.75rem;
+}
+
+/* Email icon inside input */
+.f-mail .bx-envelope {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.content_4 hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+
+/* Footer credit bar */
+.f-design {
+  padding: 1rem 3rem;
+  text-align: center;
+}
+
+.f-design-txt p {
+  font-size: 0.74rem;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   22. TAGS & PILL COMPONENTS
+   ============================================================ */
+.tag {
+  display: inline-block;
+  background: var(--gray2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  background: var(--gray2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.pill:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ============================================================
+   23. SHIMMER SKELETON LOADER
+   ============================================================ */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--gray2);
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  animation: shimmer 1.2s infinite;
+}
+
+/* ============================================================
+   24. UTILITY CLASSES
+   ============================================================ */
+.text-accent  { color: var(--accent);  }
+.text-accent2 { color: var(--accent2); }
+.text-accent3 { color: var(--accent3); }
+.text-muted   { color: var(--muted);   }
+.flex         { display: flex; }
+.flex-center  { display: flex; align-items: center; justify-content: center; }
+.gap-1        { gap: 0.5rem; }
+.gap-2        { gap: 1rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 2rem; }
+
+/* ============================================================
+   25. RESPONSIVE — TABLET ≤ 1024px
+   ============================================================ */
+@media (max-width: 1024px) {
+  .container { padding: 0 2rem; }
+
+  .grid-three--cols { grid-template-columns: repeat(2, 1fr); }
+  .grid-four--cols  { grid-template-columns: repeat(2, 1fr); }
+
+  /* Why choose: stack vertically */
+  .section-why--choose .grid-three--cols {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .choose-center-div { order: -1; }
+
+  /* Footer: 2 columns */
+  .footer-container { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+
+/* ============================================================
+   26. RESPONSIVE — MOBILE ≤ 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  :root { --section-gap: 3rem; }
+
+  .container { padding: 0 1.25rem; }
+
+  /* Top announcement bar: stack */
+  .top_txt .head {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  /* Nav: slide-in drawer from right (260px) */
+  .navbar ul {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 260px;
+    height: 100vh;
+    background: var(--black);
+    border-left: 1px solid var(--border);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2.5rem 2rem;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.06);
+  }
+
+  .navbar ul.open { right: 0; }
+
+  /* Hero: single column, centered */
+  .grid-two--cols { grid-template-columns: 1fr; }
+
+  .section-hero--content {
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-para { max-width: 100%; }
+  .hero-btn  { justify-content: center; }
+
+  /* Sale: single column */
+  .grid-three--cols { grid-template-columns: 1fr; }
+
+  /* Policy: 2 per row */
+  .grid-four--cols { grid-template-columns: repeat(2, 1fr); }
+
+  .div-policy {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+  }
+
+  /* Products: single column */
+  #productContainer { grid-template-columns: 1fr; }
+
+  /* Footer: stack */
+  .footer-container { grid-template-columns: 1fr; gap: 1.75rem; }
+  .f-design         { padding: 0.9rem 1.25rem; }
+}
+
+/* ============================================================
+   27. JS HOOK — SCROLLED NAVBAR STATE
+   Paste this snippet into your main.js:
+
+   const nav = document.querySelector('.section-navbar');
+   window.addEventListener('scroll', () => {
+     nav.classList.toggle('scrolled', window.scrollY > 40);
+   });
+   ============================================================ */
+   /* ============================================================
+   TOAST NOTIFICATION — Aapke JS ke teeno cases ke liye
+   
+   showToast("add", id)           → Product Added      🔵 Blue
+   showToast("alreadyExist", id)  → Quantity Updated   🟠 Orange
+   showToast("delete", id)        → Product Removed    🔴 Red
+   
+   Style.css ke BOTTOM mein paste karo
+   ============================================================ */
+
+/* ── Toast Base ──────────────────────────────────────────────*/
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99999;
+
+  padding: 0.9rem 1.25rem;
+  min-width: 260px;
+  max-width: 340px;
+
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  /* ✅ Hardcoded dark — light theme mein --black = #fff hota hai
+     isliye var(--black) use nahi kiya, warna invisible hota    */
+  background: #1e1e2e;
+  color: #f0eee8;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 4px solid #4cc9f0; /* default blue, type se override */
+  border-radius: 10px;
+
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.4;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+
+  animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── ADD — Blue (naya product cart mein gaya) ───────────────*/
+.toast.toast-add {
+  border-left-color: #4cc9f0;
+}
+
+.toast.toast-add::before {
+  content: '🛒';
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ── ALREADY EXISTS — Orange (quantity update hui) ───────────*/
+.toast.toast-alreadyExist {
+  border-left-color: #f4a261;
+}
+
+.toast.toast-alreadyExist::before {
+  content: '🔄';
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ── DELETE — Red (product remove hua) ──────────────────────*/
+.toast.toast-delete {
+  border-left-color: #e63946;
+}
+
+.toast.toast-delete::before {
+  content: '🗑️';
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ── Animations ──────────────────────────────────────────────*/
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(60px); }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .toast {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    min-width: unset;
+    max-width: 100%;
+  }
+}
