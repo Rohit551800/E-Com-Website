@@ -3,7 +3,7 @@ import products from "../api/products.json"
 import { showProductContainer } from "./productCards";
 import "./aboutPage.js";
 import "./contactPage.js";
-import "./footer.js"
+// import "./footer.js"
 // console.log(products);
 
 
